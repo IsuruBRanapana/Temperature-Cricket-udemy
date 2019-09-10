@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     ImageView ivTemp;
@@ -14,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etTemp;
     Button btnSubmit;
     TextView tvResult;
+    DecimalFormat formatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +30,21 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit=findViewById(R.id.btnSubmit);
         tvResult=findViewById(R.id.tvResult);
         tvResult.setVisibility(View.GONE);
+        formatter=new DecimalFormat("#0.00");
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String count=etTemp.getText().toString().trim();
-                int count1=Integer.parseInt(count);
-                int temp=(count1/3)+4;
-                String txt=getString(R.string.txtTemp)+" "+temp;
-                tvResult.setText(txt);
-                tvResult.setVisibility(View.VISIBLE);
+                if (etTemp.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this,"please enter all fields",Toast.LENGTH_SHORT).show();
+                }else {
+                    String count=etTemp.getText().toString().trim();
+                    int count1=Integer.parseInt(count);
+                    double temp=(count1/3.0)+4;
+                    String txt=getString(R.string.txtTemp)+" "+formatter.format(temp);
+                    tvResult.setText(txt);
+                    tvResult.setVisibility(View.VISIBLE);
+                }
+
             }
         });
     }
